@@ -1,0 +1,38 @@
+[
+    {
+      "address1": "De Bleek 7",
+      "address2": "3447 GV  Woerden",
+      "components": {
+        "administrative_area": "Utrecht",
+        "sub_administrative_area": "Woerden",
+        "country_iso_3": "NLD",
+        "locality": "Woerden",
+        "postal_code": "3447 GV",
+        "postal_code_short": "3447 GV",
+        "premise": "7",
+        "premise_number": "7",
+        "thoroughfare": "De Bleek"
+      },
+      "metadata": {
+        "address_format": "thoroughfare premise|postal_code  locality"
+      },
+      "analysis": {
+        "verification_status": "Verified",
+        "address_precision": "DeliveryPoint",
+        "max_address_precision": "DeliveryPoint",
+        "changes": {
+          "components": {
+            "administrative_area": "Added",
+            "sub_administrative_area": "Added",
+            "country_iso_3": "Added",
+            "locality": "Added",
+            "postal_code": "Verified-AliasChange",
+            "postal_code_short": "Verified-AliasChange",
+            "premise": "Verified-NoChange",
+            "premise_number": "Verified-NoChange",
+            "thoroughfare": "Verified-NoChange"
+          }
+        }
+      }
+    }
+  ]

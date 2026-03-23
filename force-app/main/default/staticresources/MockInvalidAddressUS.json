@@ -1,0 +1,22 @@
+[
+{
+    "input_index": 0,
+    "candidate_index": 0,
+    "delivery_line_1": "Teststraat 1",
+    "last_line": "Teststad WA",
+    "components": {
+        "street_name": "Teststraat 1",
+        "city_name": "Teststad",
+        "state_abbreviation": "WA"
+    },
+    "metadata": {
+        "precision": "Unknown"
+    },
+    "analysis": {
+        "dpv_footnotes": "A1M1",
+        "active": "Y",
+        "footnotes": "C#",
+        "enhanced_match": "none"
+    }
+}
+]

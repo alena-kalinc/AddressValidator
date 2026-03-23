@@ -1,0 +1,36 @@
+[
+{
+    "address1": "Teststraat 1",
+    "address2": "1234 QA  TESTSTAD",
+    "components": {
+        "country_iso_3": "NLD",
+        "locality": "Teststad",
+        "postal_code": "1234 QA",
+        "postal_code_short": "1234 QA",
+        "premise": "1",
+        "premise_number": "1",
+        "thoroughfare": "Teststraat"
+    },
+    "metadata": {
+        "geocode_precision": "None",
+        "max_geocode_precision": "Premise",
+        "address_format": "thoroughfare premise|postal_code  locality"
+    },
+    "analysis": {
+        "verification_status": "None",
+        "address_precision": "None",
+        "max_address_precision": "DeliveryPoint",
+        "changes": {
+            "components": {
+                "country_iso_3": "Added",
+                "locality": "Identified-ContextChange",
+                "postal_code": "Identified-NoChange",
+                "postal_code_short": "Identified-NoChange",
+                "premise": "Identified-NoChange",
+                "premise_number": "Identified-NoChange",
+                "thoroughfare": "Identified-ContextChange"
+            }
+        }
+    }
+}
+]

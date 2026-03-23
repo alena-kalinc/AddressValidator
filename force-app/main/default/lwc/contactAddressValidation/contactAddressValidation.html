@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Validate Address" icon-name="standard:task2">
+        <div class="slds-var-m-around_medium">
+            <p class="slds-var-m-bottom_small">
+                <lightning-button label="Validate Address" onclick={handleValidate}></lightning-button>
+                <span style="float:right">{message}</span>
+            </p>
+            <lightning-record-view-form record-id={recordId} object-api-name="Contact">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-output-field field-name="MailingStreet"></lightning-output-field>
+                        <lightning-output-field field-name="MailingCity"></lightning-output-field>
+                        <lightning-output-field field-name="MailingCountry"></lightning-output-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-output-field field-name="MailingPostalCode"></lightning-output-field>
+                        <lightning-output-field field-name="MailingState"></lightning-output-field>
+                        <lightning-output-field field-name="AddressValid__c"></lightning-output-field>
+                    </div>
+                </div>
+            </lightning-record-view-form>
+        </div>
+    </lightning-card>
+</template>
