@@ -13,11 +13,12 @@ export default class ContactAddressValidation extends LightningElement {
         validateAddress({ recordId: this.recordId })
           .then((result) => {
             this.contact = result;
-            this.message = 'button clicked';
+            this.message = result.AddressValid__c ? 'Address is Valid' : 'Address is Invalid';
             this.dispatchEvent(new RefreshEvent());
           })
           .catch((error) => {
             this.error = error;
+            this.message = 'Error: ' + (error.body?.message || error.message);
           });
       }
 }
