@@ -1,5 +1,6 @@
 [
 {
+    "input_id": "%%INPUT_ID%%",
     "input_index": 0,
     "candidate_index": 0,
     "delivery_line_1": "Teststraat 1",
