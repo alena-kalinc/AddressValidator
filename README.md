@@ -1,43 +1,54 @@
-# Salesforce Engineer panel assignment
+# 🌍 Smarty Address Validation Integration (FinDock Panel Assignment)
+**Author:** Alona Kalinchuk
 
-**Congratulations on making it to the panel stage of your recruiting process at
-FinDock.**
+## 📌 Project Overview
+This repository contains the solution for the Salesforce Engineer Panel Assignment. The application allows users to validate US and International addresses on the `Contact` object directly from the UI, while being fully optimized for bulk automation operations.
 
-Even more importantly, thank you for your interest and taking the time! The goal of the panel interview process is to see if you feel comfortable in the development process at FinDock. We encourage you to be creative!
+---
 
-This is the most important step of the recruitment process in which you will present to a group of senior FinDock members. Expect a very interactive session in which you will be asked a lot of questions.
+## 🎯 Solutions to Panel Exercises
 
-## General instructions
-- We expect you to spend about 4-5 hours on all exercises combined. Please try to
-limit yourself to this timebox. You won't be judged on perfection, we just want to get a feel on how you will perform once you are part of FinDock.
+### 1. Performance & Bulkification
+* **Bulk API for US:** US addresses are routed to the Smarty Bulk POST endpoint, processing records in chunks of 100 (API limit) to minimize HTTP callouts.
+* **Limit Monitoring:** International validation (GET requests) actively monitors `Limits.getCallouts()` to gracefully prevent `System.LimitException`.
+* **Live Demo Ready:** An Anonymous Apex script is prepared to prove performance by validating 60+ records instantly.
 
-- Please stop on time and document the things you would've done differently or
-better if you had more time so that we're not left wondering if you made decisions
-because you didn't know better or because you had no more time.
+### 2. Testing Strategy
+* **Apex Unit Testing:** Implemented dynamic `HttpCalloutMock` classes that utilize `input_id` mapping to accurately simulate bulk API responses.
+* **Coverage & Scenarios:** Tests cover successful validation, invalid data handling, and server-side failures.
 
-- If you have questions about the panel then it's more than fine to ask questions by
-sending an e-mail to jorrit@findock.com. Asking questions is even welcomed, as
-this is definitely also expected after you joined FinDock.
+### 3. Multi-Provider Architecture (Architecture Design)
+* **Strategy & Factory Patterns:** To support multiple providers (e.g., Smarty, Loqate, Google), I propose using an `IAddressValidator` interface. A Factory class would dynamically instantiate the correct provider at runtime.
+* **Configuration-Driven:** Provider-specific endpoints, mappings, and credentials should be stored in Custom Metadata Types (CMDT) to allow switching vendors without code deployment.
 
-- You can use any technology or format for delivering your presentation. You will not be judged on your presentation skills, so please don't spend too much time on this.
+### 4. Code Review & Best Practices Applied
+* **Security First:** Refactored the legacy codebase to include strict CRUD/FLS checks using `WITH SECURITY_ENFORCED` and `Security.stripInaccessible`.
+* **Separation of Concerns:** Reorganized the logic to separate Callout Services from UI Controllers.
+* **Clean Code:** Removed hardcoded strings and implemented robust error handling with meaningful user feedback.
 
-- Please start your presentation with a short introduction of yourself.
+### 5. Productization (Roadmap for AppExchange / ISV)
+To make this a real product that adds value to multiple orgs:
+* **SObject Agnostic:** Decouple from the `Contact` object. Use Field Sets and dynamic SOQL to support Leads, Accounts, or Custom Objects.
+* **Dynamic Field Mapping:** Allow admins to map their custom address fields to the API payload via UI/CMDT.
+* **Persistent Logging:** Implement an `Integration_Log__c` object and Platform Events to track API failures and usage limits for org admins.
 
-- It would be really nice for us to see how you approached the exercises. Once you're happy with your changes and everything is committed to this repository, please share the repository with us so we can prepare the panel beforehand.
+---
 
-## Excercises
-1. Write code that does the same validation as the component in the repo, but not per record but in bulk. Make the code as performant as possible. Proof the performance during the presentation live by running the code for at least 60 records while measuring the time.
+## 🚀 Setup & Configuration
 
-2. Not only Salesforce requires a lot of unit testing but at FinDock we find it important
-to validate our code, processes and integrations via unit-, integration- and manual tests. How would you approach testing your code? We don't expect 100% test coverage but it would be good to see some tests and maybe skeleton code with comments on the outline of other test cases.
+1. **Deploy Metadata:** Deploy the classes and UI components to your Salesforce org.
+2. **Remote Site Settings:** Add `https://us-street.api.smarty.com` and `https://international-street.api.smarty.com`.
+3. **Authentication Setup:**
+   * Configure **External Credentials** with `Basic Authentication` protocol.
+   * Set up the **Principals** with your Smarty `Auth ID` and `Auth Token`.
+   * Configure **Named Credentials** (`Smarty_US` and `Smarty_International`) linking to the External Credential.
+4. **Permissions:** Assign a Permission Set granting access to the **External Credential Principal** and the `AddressValid__c` field.
 
-3. Imagine that we want to offer different Address Validation Providers (e.g. different API implementations). How would you approach/architect this? This should be psuedo code and doesn't have to be working code! Please include this as part of your presentation during the panel.
+---
 
-4. The current codebase is not as clean as it can be. It's missing certain elements that are to be expected. On top of that there's room for improvements and best practices. An important part of working at FinDock is performing code reviews to make sure our newly created product is as good as it can be. Please perform a code review on the current code base to your style, liking and standards.
+## 🕒 Timebox & Trade-offs
+Decisions made to respect the assignment time limit:
 
-5. Let's imagine our functionality is well received and we would like to make a real product out of it. What changes and requirements can you imagine that would be required to make it a product that adds value to multiple different Salesforce orgs? Please note that this is not needed in actual code but e.g. listed on a set of slides.
-
-
-### Used Api
-
-The panel assignment repository uses smarty.com as a provider for address validation. You can sign up for free account at their [website](https://www.smarty.com/pricing/international-address-verification)
+* **Validation Strictness (International API):** The current implementation accepts both `Verified` and `Partial` statuses as a valid address. To achieve a strict 100% `Verified` match, the GET request payload needs to be expanded (e.g., mapping the City field to the `locality` parameter). This was skipped to avoid breaking the legacy method signature but is documented for V2.
+* **Hardcoded Configurations:** Named Credentials names and Batch Sizes (100) are currently static in Apex. In production, these would be moved to Custom Metadata.
+* **Mass Action UI:** The backend is fully bulk-safe, but a dedicated List View button/LWC was skipped to prioritize core backend architecture and stability.
