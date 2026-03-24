@@ -3,6 +3,7 @@ public inherited sharing class AddressValidationCalloutService {
     private static final String NAMED_CRED_US = 'callout:Smarty_US';
 
     private static final String STATUS_VERIFIED = 'Verified';
+    private static final String STATUS_PARTIAL = 'Partial';
     private static final String STATUS_PRECISION_UNKNOWN = 'Unknown';
     private static final Integer SMARTY_MAX_BATCH_SIZE = 100;
 
@@ -76,7 +77,7 @@ public inherited sharing class AddressValidationCalloutService {
         String encodedCountry = EncodingUtil.urlEncode(country, 'UTF-8');
 
         String endpoint = NAMED_CRED_INTERNATIONAL
-                + '&address1=' + encodedAddr
+                + '?address1=' + encodedAddr
                 + '&postal_code=' + encodedPostal
                 + '&country=' + encodedCountry;
 
@@ -98,8 +99,9 @@ public inherited sharing class AddressValidationCalloutService {
             );
 
             if (candidates == null || candidates.isEmpty()) return false;
+            String actualStatus = candidates[0]?.analysis?.verification_status;
 
-            return candidates[0]?.analysis?.verification_status == STATUS_VERIFIED;
+            return actualStatus == STATUS_VERIFIED || actualStatus == STATUS_PARTIAL;
 
         } catch (Exception e) {
             logError('International callout exception:', e.getMessage() + '\n' + e.getStackTraceString());
